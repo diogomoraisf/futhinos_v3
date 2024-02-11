@@ -11,6 +11,7 @@ import 'package:futhinos_v2/pages/clube_profile/clube_profile_state.dart';
 import 'package:futhinos_v2/repositories/download_hino/download_hino_repository.dart';
 import 'package:futhinos_v2/repositories/get_hinos/get_hinos_repository.dart';
 import 'package:futhinos_v2/repositories/rated_hino/rated_repository.dart';
+import 'package:futhinos_v2/repositories/ringtone_repository/ringtone_repository.dart';
 import 'package:futhinos_v2/services/globals.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:ringtone_set_mul/ringtone_set_mul.dart';
@@ -20,9 +21,10 @@ class ClubeProfileController extends Cubit<ClubeProfileState> {
   final GetHinosRepository _getHinosRepository;
   final DownloadHinoRepository _downloadHinoRepository;
   final RatedRepository _ratedRepository;
+  final RingtoneRepository _ringtoneRepository;
 
   ClubeProfileController(this._getHinosRepository, this._downloadHinoRepository,
-      this._ratedRepository)
+      this._ratedRepository, this._ringtoneRepository)
       : super(ClubeProfileState.initial());
 
   Future<void> getHinos(String uidTime) async {
@@ -190,16 +192,16 @@ class ClubeProfileController extends Cubit<ClubeProfileState> {
     }
   }
 
-  Future<void> addRingtone(String urlHino) async {
+  Future<void> addRingtone(String urlHino, String title) async {
     emit(state.copyWith(status: ClubeProfileStateStatus.loadingRingtone));
     try {
-      await RingtoneSet.setRingtoneFromNetwork(urlHino);
+      //await RingtoneSet.setRingtoneFromNetwork(urlHino);
+      await _ringtoneRepository.addRingtone(pathOfFile: urlHino, title: title);
       emit(state.copyWith(status: ClubeProfileStateStatus.loadedRingtone));
     } on RespositoryExceptions catch (e, s) {
       log('erro ao adicionar ringtone', error: e, stackTrace: s);
       emit(state.copyWith(
-          status: ClubeProfileStateStatus.error,
-          errorMessage: 'Oopss.. Erro inesperado. Tente novamente mais tarde'));
+          status: ClubeProfileStateStatus.error, errorMessage: e.message));
     }
   }
 }
