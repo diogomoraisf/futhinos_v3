@@ -7,6 +7,8 @@ import 'package:futhinos_v2/repositories/get_hinos/get_hinos_repository.dart';
 import 'package:futhinos_v2/repositories/get_hinos/get_hinos_repository_impl.dart';
 import 'package:futhinos_v2/repositories/rated_hino/rated_repository.dart';
 import 'package:futhinos_v2/repositories/rated_hino/rated_repository_impl.dart';
+import 'package:futhinos_v2/repositories/ringtone_repository/ringtone_repository.dart';
+import 'package:futhinos_v2/repositories/ringtone_repository/ringtone_repository_impl.dart';
 import 'package:provider/provider.dart';
 
 abstract class ClubeProfileRouter {
@@ -23,9 +25,12 @@ abstract class ClubeProfileRouter {
           Provider<RatedRepository>(
             create: (context) => RatedRepositoryImpl(),
           ),
+          Provider<RingtoneRepository>(
+            create: (context) => RingtoneRepositoryImpl(),
+          ),
           Provider(
             create: (context) => ClubeProfileController(
-                context.read(), context.read(), context.read()),
+                context.read(), context.read(), context.read(), context.read()),
           )
         ],
         builder: (context, child) {

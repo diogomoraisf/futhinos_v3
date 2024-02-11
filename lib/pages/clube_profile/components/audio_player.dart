@@ -72,7 +72,9 @@ class _AudioPlayerState extends State<AudioPlayer> {
           ),
           OptionItem(
               onTap: () async {
-                await widget.controller.addRingtone(baseUrl + widget.hino.url!);
+                await widget.controller.addRingtone(
+                    baseUrl + widget.hino.url! + baseUrlDownload,
+                    '${widget.time.nomeTime} - ${widget.hino.nome}');
               },
               iconData: FontAwesomeIcons.music,
               title: 'Definir como toque')
