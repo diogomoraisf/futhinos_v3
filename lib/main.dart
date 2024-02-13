@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
+//import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:futhinos_v2/pages/fut_hinos.dart';
 import 'package:futhinos_v2/services/globals.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -20,7 +20,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FlutterDownloader.initialize(debug: true, ignoreSsl: true);
+  // await FlutterDownloader.initialize(debug: true, ignoreSsl: true);
 
   // define apenas orientação Portrait
   SystemChrome.setPreferredOrientations(

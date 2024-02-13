@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:futhinos_v2/models/hinos_model.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
+//import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:futhinos_v2/models/times_model.dart';
 import 'package:futhinos_v2/pages/clube_profile/clube_profile_controller.dart';
 import 'package:futhinos_v2/pages/clube_profile/clube_profile_state.dart';
@@ -20,31 +20,31 @@ class DownloadHino extends StatefulWidget {
 }
 
 class _DownloadHinoState extends State<DownloadHino> {
-  final ReceivePort _port = ReceivePort();
+  //final ReceivePort _port = ReceivePort();
 
   @override
   void initState() {
     super.initState();
-    IsolateNameServer.registerPortWithName(
-        _port.sendPort, 'downloader_send_port');
-    _port.listen((dynamic data) {
-      int id = data[0];
-      String status = data[1];
-      int progress = data[2];
-    });
+    // IsolateNameServer.registerPortWithName(
+    //     _port.sendPort, 'downloader_send_port');
+    // _port.listen((dynamic data) {
+    //   int id = data[0];
+    //   String status = data[1];
+    //   int progress = data[2];
+    // });
 
-    FlutterDownloader.registerCallback(downloadCallback);
+    // FlutterDownloader.registerCallback(downloadCallback);
   }
 
-  static void downloadCallback(String status, int id, int progress) {
-    final SendPort send =
-        IsolateNameServer.lookupPortByName('downloader_send_port')!;
-    send.send([id, status, progress]);
-  }
+  // static void downloadCallback(String status, int id, int progress) {
+  //   final SendPort send =
+  //       IsolateNameServer.lookupPortByName('downloader_send_port')!;
+  //   send.send([id, status, progress]);
+  // }
 
   @override
   void dispose() {
-    IsolateNameServer.removePortNameMapping('downloader_send_port');
+    //IsolateNameServer.removePortNameMapping('downloader_send_port');
     super.dispose();
   }
 

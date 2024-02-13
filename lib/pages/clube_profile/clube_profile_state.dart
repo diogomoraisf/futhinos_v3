@@ -16,6 +16,7 @@ enum ClubeProfileStateStatus {
   loadingRewardAd,
   loadedRewardAd,
   loadedRewarsAdFail,
+  prepareDownload,
   downloading,
   downloaded,
   loadingRate,

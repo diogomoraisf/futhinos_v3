@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
+//import 'dart:html';
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:futhinos_v2/core/exceptions/respository_exceptions.dart';
 import 'package:futhinos_v2/models/hinos_model.dart';
 import 'package:futhinos_v2/models/notas_model.dart';
@@ -16,6 +18,7 @@ import 'package:futhinos_v2/services/globals.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:ringtone_set_mul/ringtone_set_mul.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ClubeProfileController extends Cubit<ClubeProfileState> {
   final GetHinosRepository _getHinosRepository;
@@ -41,13 +44,43 @@ class ClubeProfileController extends Cubit<ClubeProfileState> {
   }
 
   Future<void> downloadHino(String urlHino, String fileName) async {
-    emit(state.copyWith(status: ClubeProfileStateStatus.downloading));
+    emit(state.copyWith(status: ClubeProfileStateStatus.prepareDownload));
     try {
-      await _downloadHinoRepository.downloadHino(urlHino, fileName);
-      await removeDownloadsCredits(10);
-      emit(state.copyWith(
-        status: ClubeProfileStateStatus.downloaded,
-      ));
+      final statusPermission = await _downloadHinoRepository.prepareDownload();
+      if (statusPermission.isGranted) {
+        await FileDownloader.downloadFile(
+            url: urlHino,
+            name: fileName,
+            notificationType: NotificationType.all, //(optional)
+            onProgress: (String? fileName, double progress) {
+              emit(state.copyWith(
+                status: ClubeProfileStateStatus.downloading,
+              ));
+            },
+            onDownloadCompleted: (String path) async {
+              await removeDownloadsCredits(10);
+              emit(state.copyWith(
+                status: ClubeProfileStateStatus.downloaded,
+              ));
+            },
+            onDownloadError: (String error) {
+              emit(state.copyWith(
+                  status: ClubeProfileStateStatus.error,
+                  errorMessage:
+                      'Erro inesperado. Nenhum crédito será descontado. Tente novamente em outro momento'));
+            }).onError((error, stackTrace) {
+          emit(state.copyWith(
+              status: ClubeProfileStateStatus.error,
+              errorMessage:
+                  'Erro inesperado. Tente novamente em outro momento'));
+          return null;
+        });
+      } else {
+        emit(state.copyWith(
+            status: ClubeProfileStateStatus.error,
+            errorMessage:
+                'Acesso negado. Permita acesso ao armazenamento interno.'));
+      }
     } on RespositoryExceptions catch (e, s) {
       log('erro ao realizar download do hino', error: e, stackTrace: s);
       emit(state.copyWith(
@@ -195,8 +228,8 @@ class ClubeProfileController extends Cubit<ClubeProfileState> {
   Future<void> addRingtone(String urlHino, String title) async {
     emit(state.copyWith(status: ClubeProfileStateStatus.loadingRingtone));
     try {
-      //await RingtoneSet.setRingtoneFromNetwork(urlHino);
-      await _ringtoneRepository.addRingtone(pathOfFile: urlHino, title: title);
+      await RingtoneSet.setRingtoneFromNetwork(urlHino);
+      //await _ringtoneRepository.addRingtone(pathOfFile: urlHino, title: title);
       emit(state.copyWith(status: ClubeProfileStateStatus.loadedRingtone));
     } on RespositoryExceptions catch (e, s) {
       log('erro ao adicionar ringtone', error: e, stackTrace: s);
