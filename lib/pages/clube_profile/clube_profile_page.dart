@@ -64,7 +64,8 @@ class _ClubeProfilePageState
                               any: () => hideLoader(),
                               loading: () => showLoader(),
                               loadingRingtone: () => showLoader(),
-                              downloading: () => showLoader(),
+                              prepareDownload: () =>
+                                  showLoader(message: 'Preparando tudo..'),
                               loadedRewarsAdFail: () =>
                                   controller.loadRewardedAd(),
                               loadedRingtone: () {
@@ -72,10 +73,15 @@ class _ClubeProfilePageState
                                 showInfo(
                                     'Hino definido como toque padrão do seu smartphone com sucesso!');
                               },
+                              downloading: () {
+                                hideLoader();
+                                showLoader(
+                                    message: 'Download iniciado.. aguarde');
+                              },
                               downloaded: () {
                                 hideLoader();
                                 showInfo(
-                                    'Download iniciado.. veja os detalhes na notificação ou acesse sua pasta de Downloads.');
+                                    'Download concluído.. veja os detalhes na notificação ou acesse sua pasta de Downloads.');
                               },
                               error: () {
                                 hideLoader();

@@ -14,6 +14,7 @@ extension ClubeProfileStateStatusMatch on ClubeProfileStateStatus {
       required T Function() loadingRewardAd,
       required T Function() loadedRewardAd,
       required T Function() loadedRewarsAdFail,
+      required T Function() prepareDownload,
       required T Function() downloading,
       required T Function() downloaded,
       required T Function() loadingRate,
@@ -44,6 +45,10 @@ extension ClubeProfileStateStatusMatch on ClubeProfileStateStatus {
 
     if (v == ClubeProfileStateStatus.loadedRewarsAdFail) {
       return loadedRewarsAdFail();
+    }
+
+    if (v == ClubeProfileStateStatus.prepareDownload) {
+      return prepareDownload();
     }
 
     if (v == ClubeProfileStateStatus.downloading) {
@@ -86,6 +91,7 @@ extension ClubeProfileStateStatusMatch on ClubeProfileStateStatus {
       T Function()? loadingRewardAd,
       T Function()? loadedRewardAd,
       T Function()? loadedRewarsAdFail,
+      T Function()? prepareDownload,
       T Function()? downloading,
       T Function()? downloaded,
       T Function()? loadingRate,
@@ -118,6 +124,11 @@ extension ClubeProfileStateStatusMatch on ClubeProfileStateStatus {
     if (v == ClubeProfileStateStatus.loadedRewarsAdFail &&
         loadedRewarsAdFail != null) {
       return loadedRewarsAdFail();
+    }
+
+    if (v == ClubeProfileStateStatus.prepareDownload &&
+        prepareDownload != null) {
+      return prepareDownload();
     }
 
     if (v == ClubeProfileStateStatus.downloading && downloading != null) {
