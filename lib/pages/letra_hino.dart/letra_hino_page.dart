@@ -42,43 +42,46 @@ class _LetraHinoPageState
           transparent: true,
         ),
         backgroundColor: Colors.transparent,
-        floatingActionButton: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            FloatingActionButton.small(
-              onPressed: () {
-                scrollControler.animateTo(
-                    scrollControler.position.minScrollExtent,
-                    duration: const Duration(seconds: 1),
-                    curve: Curves.linear);
-              },
-              heroTag: null,
-              backgroundColor: Colors.white,
-              child: const Icon(
-                Icons.arrow_drop_down_outlined,
-                size: 30,
-                color: Colors.black,
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(bottom: 60.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              FloatingActionButton.small(
+                onPressed: () {
+                  scrollControler.animateTo(
+                      scrollControler.position.minScrollExtent,
+                      duration: const Duration(seconds: 1),
+                      curve: Curves.linear);
+                },
+                heroTag: null,
+                backgroundColor: Colors.white,
+                child: const Icon(
+                  Icons.arrow_drop_down_outlined,
+                  size: 30,
+                  color: Colors.black,
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            FloatingActionButton(
-              onPressed: () {
-                scrollControler.animateTo(
-                    scrollControler.position.maxScrollExtent,
-                    duration: const Duration(seconds: 30),
-                    curve: Curves.linear);
-              },
-              heroTag: null,
-              backgroundColor: ThemeColors.yellowPadrao,
-              child: const Icon(
-                Icons.arrow_drop_up,
-                size: 40,
-                color: ThemeColors.blackPadrao,
+              const SizedBox(
+                height: 10,
               ),
-            )
-          ],
+              FloatingActionButton(
+                onPressed: () {
+                  scrollControler.animateTo(
+                      scrollControler.position.maxScrollExtent,
+                      duration: const Duration(seconds: 30),
+                      curve: Curves.linear);
+                },
+                heroTag: null,
+                backgroundColor: ThemeColors.yellowPadrao,
+                child: const Icon(
+                  Icons.arrow_drop_up,
+                  size: 40,
+                  color: ThemeColors.blackPadrao,
+                ),
+              )
+            ],
+          ),
         ),
         body: Container(
           decoration: const BoxDecoration(
