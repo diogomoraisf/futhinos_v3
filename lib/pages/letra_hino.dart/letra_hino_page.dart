@@ -147,7 +147,7 @@ class _LetraHinoPageState
                                         child: const Padding(
                                           padding: EdgeInsets.only(bottom: 1.0),
                                           child: AddAdmobBanner(
-                                              isTest: true, page: 'letra'),
+                                              isTest: false, page: 'letra'),
                                         ),
                                       ),
                                     ],
