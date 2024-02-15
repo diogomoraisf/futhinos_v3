@@ -39,7 +39,7 @@ class _AudioPlayerState extends State<AudioPlayer> {
     _chewieAudioController = ChewieAudioController(
       videoPlayerController: widget.audioPlayerController,
       controlsSafeAreaMinimum: EdgeInsets.zero,
-      autoInitialize: true,
+      autoInitialize: false,
       customControls: const CupertinoControls(
           backgroundColor: Colors.black, iconColor: ThemeColors.yellowPadrao),
       allowPlaybackSpeedChanging: false,
